@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<?php   include "../head.inc"; ?>
+<?php   include $_SERVER["DOCUMENT_ROOT"]."/inc/head.inc"; ?>
 </head>
 <body>
-    <?php   include "../header.inc"; ?>
+    <?php   include $_SERVER["DOCUMENT_ROOT"]."/inc/header.inc"; ?>
     <div id="content">
         <article class="category">
             <div class="board_title">

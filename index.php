@@ -5,10 +5,10 @@
 <title>로그인 페이지</title>
 <script src="./sha/core.min.js"></script>
 <script src="./sha/sha256.min.js"></script>
-<?php   include "./head.inc"; ?>
+<?php   include $_SERVER["DOCUMENT_ROOT"]."/inc//head.inc"; ?>
 </head>
 <body>
-<?php   include "./header.inc"; ?>
+<?php   include $_SERVER["DOCUMENT_ROOT"]."/inc//header.inc"; ?>
     <div id="wrap">
         <div id="content" style="padding: 20px 0 0">
             <div class="main_wrap">
@@ -42,7 +42,7 @@
 							<div class="board_title">
 								<h3>카테고리</h3><a class="more" href="">+</a>
 								</div>
-									<%@ include file="../include/navbar.jsp" %>
+									<%@ include file="..$_SERVER["DOCUMENT_ROOT"]."/inc/lude/navbar.jsp" %>
                         </article> --%>
                         <article style="height:682px; overflow-y:auto">
                             <div class="board_title">

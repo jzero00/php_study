@@ -5,11 +5,11 @@
 <title>로그인 페이지</title>
 <script src="./sha/core.min.js"></script>
 <script src="./sha/sha256.min.js"></script>
-<?php	include "./head.inc"; ?>
+<?php	include $_SERVER["DOCUMENT_ROOT"]."/inc/head.inc"; ?>
 </head>
 <body>
 <!-- top menu s -->
-<!-- <%@ include file="../include/header.jsp" %> -->
+<!-- <%@ include file="..$_SERVER["DOCUMENT_ROOT"]."/inc/lude/header.jsp" %> -->
 <!-- top menu e -->
 <div id="wrap" style="min-width:500px;">
 		<div id="login_box">
