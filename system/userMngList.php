@@ -67,10 +67,10 @@
                     <th>구분</th>
                     <td>
                         <select name="searchType" id="searchType" class="selectCSS">
-                            <option value="nm">이름 </option>
-                            <option value="id">아이디</option>
-                            <option value="pn">휴대폰번호</option>
-                            <option value="ed">만료일</option>
+                            <option value="nm" <?php $_SERVER["REQUEST_METHOD"] == "POST" && $_POST['searchType'] == 'nm' ? print('selected')  : '' ?>>이름</option>
+                            <option value="id" <?php $_SERVER["REQUEST_METHOD"] == "POST" && $_POST['searchType'] == 'id' ? print('selected')  : '' ?>>아이디</option>
+                            <option value="pn" <?php $_SERVER["REQUEST_METHOD"] == "POST" && $_POST['searchType'] == 'pn' ? print('selected')  : '' ?>>휴대폰번호</option>
+                            <option value="ed" <?php $_SERVER["REQUEST_METHOD"] == "POST" && $_POST['searchType'] == 'ed' ? print('selected')  : '' ?>>만료일</option>
                     </select>
                 </td>
             </tr>
@@ -86,7 +86,7 @@
             <tr>
                 <th>검색어</th>
                 <td>
-                    <input name="keyword" id="keyword" type="text" class="inputSearch2" value="">
+                    <input name="keyword" id="keyword" type="text" class="inputSearch2" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['keyword'])  : '' ?>">
                     <button class="btn_sch" onclick="search()">검색</button>
                     <button class="btn_reset">초기화</button>
                 </td>
@@ -123,6 +123,20 @@
         </tr>
             <?php
                 include $_SERVER["DOCUMENT_ROOT"]."/connect.php";
+                $offset = 0;
+                $where = '';
+                $searchType = '';
+                $keyword = '';
+
+                if(isset($_POST['searchType'])) $searchType = $_POST['searchType'];
+                if(isset($_POST['keyword'])) $keyword = $_POST['keyword'];
+                if(isset($_POST['offset'])) $offset = $_POST['offset'];
+                
+                if($searchType === 'nm') $where = $where."AND (userNm LIKE CONCAT('%','".$keyword."','%'))";
+                if($searchType === 'id') $where = $where."AND (usid LIKE CONCAT('%','".$keyword."','%'))";
+                if($searchType === 'pn') $where = $where."AND (userTelno LIKE CONCAT('%','".$keyword."','%'))";
+                if($searchType === 'ed') $where = $where."AND (userEndde LIKE CONCAT('%','".$keyword."','%'))";
+
                 $sql = "SELECT u.seq, c2.categoryNm as category1, c1.categoryNm as category2, 
                         ua.authNm, u.userNm, u.usid,
                         u.userTelno, u.userEndde, u.userConfmAt 
@@ -132,9 +146,22 @@
                         LEFT JOIN safejsp.category c2
                         ON c1.categoryPid = c2.categoryId
                         LEFT JOIN safejsp.userAuth ua 
-                        ON ua.authoryNo = u.authoryNo";
+                        ON ua.authoryNo = u.authoryNo WHERE 1=1 ".$where.
+                        "ORDER BY u.seq DESC
+                        LIMIT 10 OFFSET ".$offset;
                 $result = $conn->query($sql);
                 $row = $result->fetch_array(MYSQLI_ASSOC);
+
+                $cnt_sql = "SELECT COUNT(*) as cnt
+                            FROM safejsp.user u, safejsp.userAuth ua
+                            WHERE 1=1
+                            AND u.authoryNo = ua.authoryNo ".$where;
+
+                $cnt_res = $conn->query($cnt_sql);
+                $cnt = $cnt_res->fetch_array(MYSQLI_ASSOC);
+                echo $cnt['cnt'];
+                
+                $conn->close();
                 $list = "";
                 while ($row = mysqli_fetch_array($result)) {
                     $list = $list.'<tr>';
@@ -159,19 +186,42 @@
             ?>
         </table>
         <form id="searchForm" method="post" action="userMngList.php">
-            <input type='hidden' name="page" value="${pageMaker.cri.page }" />
+            <input type='hidden' name="page" value="<?php isset($_POST['searchType']) ? $_POST['searchType'] : 1; ?>" />
             <input type='hidden' name="keyword" value="${pageMaker.cri.keyword }" />
             <input type='hidden' name="searchType" value="${pageMaker.cri.searchType }" />
             <input type='hidden' name="cnSe" value="${pageMaker.cri.cnSe }" />
         </form>
         <!-- 					<ul class="dw_bar"> -->
-            <!-- 						<li><a href="sub071.php">목록</a></li> -->
-            <!-- 					</ul> -->
+        <!-- 						<li><a href="sub071.php">목록</a></li> -->
+        <!-- 					</ul> -->
             <ul class="page_bar">
-                <!--<%@ include file="../../include/pagination.jsp" %>-->
+                <?php include $_SERVER["DOCUMENT_ROOT"]."/inc/pagination.php"; ?>
             </ul>
         </div>
     </div>
 </div>
 </body>
+<script>
+    function search(){
+	var searhForm = document.querySelector("#searchForm");
+	console.log(searhForm);
+	
+	var keyword = document.querySelector("input#keyword").value;
+	var searchType = document.querySelector("select#searchType").value;
+	console.log(keyword);
+	console.log(searchType);
+	
+	var iType = searhForm.querySelector("input[name='searchType']");
+	var iKey = searhForm.querySelector("input[name='keyword']");
+	
+	iType.value = searchType;
+	iKey.value = keyword;
+	
+	console.log(iType.value);
+	console.log(iKey.value);
+	
+// 	console.log(document.querySelector("form#searchForm"));
+	document.querySelector("form#searchForm").submit();
+}
+</script>
 </html>
