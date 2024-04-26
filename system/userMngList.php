@@ -94,7 +94,7 @@
         </table>
         <ul class="dw_bar">
             <li><a onclick="deleteUser()">선택삭제</a></li>
-            <li><a href="userMngReg.do">등록</a></li>
+            <li><a href="userMngReg.php">등록</a></li>
         </ul>
         <table class="table_list">
             <colgroup>
@@ -159,11 +159,11 @@
 
                 $cnt_res = $conn->query($cnt_sql);
                 $cnt = $cnt_res->fetch_array(MYSQLI_ASSOC);
-                echo $cnt['cnt'];
+                $cnt = $cnt['cnt'];
+                echo $cnt."건이 검색되었습니다.";
                 
-                $conn->close();
                 $list = "";
-                while ($row = mysqli_fetch_array($result)) {
+                while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                     $list = $list.'<tr>';
                     $list = $list.'<td><input type="checkbox"></td>';
                     $list = $list.'<td>'.$row["seq"].'</td>';
@@ -183,13 +183,14 @@
                     $list = $list.'</tr>';
                 }
                 echo $list;
+                $conn->close();
             ?>
         </table>
         <form id="searchForm" method="post" action="userMngList.php">
-            <input type='hidden' name="page" value="<?php isset($_POST['searchType']) ? $_POST['searchType'] : 1; ?>" />
-            <input type='hidden' name="keyword" value="${pageMaker.cri.keyword }" />
-            <input type='hidden' name="searchType" value="${pageMaker.cri.searchType }" />
-            <input type='hidden' name="cnSe" value="${pageMaker.cri.cnSe }" />
+            <input type='hidden' name="page" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['page'])  : print(1) ?>" />
+            <input type='hidden' name="keyword" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['keyword'])  : '' ?>" />
+            <input type='hidden' name="searchType" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['searchType'])  : '' ?>" />
+            <input type='hidden' name="cnSe" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['cnSe'])  : '' ?>" />
         </form>
         <!-- 					<ul class="dw_bar"> -->
         <!-- 						<li><a href="sub071.php">목록</a></li> -->
