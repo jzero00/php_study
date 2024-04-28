@@ -31,14 +31,24 @@
 						<tr>
 							<th>사용자타입</th>
 							<td colspan="3">
-								<c:forEach items="${authList }" var="auth">
-									<c:if test="${auth.authUseyn eq 'Y' }">
-										<input type="radio" id="usrAuth" name="authoryNo" value="${auth.authoryNo }"> <label for="group1">${auth.authNm }</label>							
-									</c:if>
-								</c:forEach>
+								<?php
+									include $_SERVER["DOCUMENT_ROOT"]."/connect.php";
+									$sql = "SELECT * FROM safejsp.userAuth
+											WHERE authUseyn = 'Y'
+											ORDER BY authoryNo ASC";
+									
+									$result = $conn->query($sql);
+               	 					$row = $result->fetch_array(MYSQLI_ASSOC);
+									$list = "";
+									while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+										$list = $list.'<input type="radio" id="usrAuth" name="authoryNo" value="'.$row["authoryNo"].'"><label for="group1">'.$row["authNm"].'</label>';
+									}
+									echo $list;
+                					$conn->close();
+								?>
 							</td>
 						</tr>
-						<tr>
+						<!-- <tr>
 						<th>카테고리</th>
 						<td colspan="3">
 							<select id="category1" onchange="getCategoryList(2)" class="selectCSS" style="width: 200px; text-align: center;">
@@ -48,7 +58,7 @@
 							<select name="userCtgry" id="category3" class="selectCSS" style="width: 200px; text-align: center;">
 							</select>
 						</td>
-						</tr>
+						</tr> -->
 						<tr>
 							<th>ID</th>
 							<td><input type="text" name="usid" id="usid" style="width:150px"><button class="btn_sch" type="button" onclick="duple()">중복확인</button></td>
@@ -67,40 +77,6 @@
 							<th>비밀번호확인</th>
 							<td><input type="password" style="width: 200px;" id="password2"></td>
 						</tr>
-				
-
-
-<%-- 				<tr>
-					<th>협력사명</th>
-					<td>
-						<input type="text" style="width:150px;"><button class="btn_sch">검색</button>		
-						<select name="" id="" class="selectCSS">
-							
-						</select>
-						<button class="btn_sel">선택</button>
-					<input type="text" name='COOP_NM' style="width:150px"></td>
-					<th>협력사구분</th>
-					<td> 현장관리 - 협력사관리 에서 불러오기
-					
-						<select name='COOP_SE' id="" class="selectCSS">
-							<option value="1">기구</option>
-							<option value="2">전장</option>
-							<option value="3">제어</option>
-							<option value="4">SW</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>협력사소장</th>
-					<td colspan="3">현장관리 - 협력사관리 에서 불러오기 <input type="text" name='COOP_PSSO' style="width:150px"></td>
-				</tr>
-				<tr>
-					<th>협력사 연락처</th>
-					<td>현장관리 - 협력사관리 에서 불러오기 <input type="text" name='TELNO' style="width:150px"></td>
-					<th>협력사  이메일</th>
-					<td>현장관리 - 협력사관리 에서 불러오기 <input type="text" name='EML' style="width:200px"></td>
-				</tr>
-			</tbody></table>--%>
 					</tbody>
 				</table>
 				<input type="hidden" name="idCheck" id="idCheck" />
@@ -113,7 +89,34 @@
 					<a onclick="history.back(-1)">취소</a>
 				</li>
 			</ul>
-			
 		</div>
 	</div>
 </body>
+<script>
+	function duple(){
+		let usid = "";
+		
+		usid = document.querySelector("input#usid").value;
+		
+		$.ajax({
+			url : "usidCheck.php",
+			type : "post",
+			contentType: "application/json;charset=UTF-8",
+			dataType : "text",
+			data : usid,
+			success : function(data){
+				console.log(data);
+				if(data.checkRes != null){
+					alert("중복된 ID가 있습니다. 다른 ID를 입력해주세요");
+					return;
+				} else {
+					alert("사용 가능한 ID입니다");
+					document.querySelector("input#idCheck").value = 1;
+				}
+			},
+			error : function(error){
+				alert("중복체크 오류");
+			}
+		})		
+	}
+</script>
