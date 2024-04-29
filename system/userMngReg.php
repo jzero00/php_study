@@ -48,17 +48,6 @@
 								?>
 							</td>
 						</tr>
-						<!-- <tr>
-						<th>카테고리</th>
-						<td colspan="3">
-							<select id="category1" onchange="getCategoryList(2)" class="selectCSS" style="width: 200px; text-align: center;">
-							</select>
-							<select id="category2" onchange="getCategoryList(3)" class="selectCSS" style="width: 200px; text-align: center;">
-							</select>
-							<select name="userCtgry" id="category3" class="selectCSS" style="width: 200px; text-align: center;">
-							</select>
-						</td>
-						</tr> -->
 						<tr>
 							<th>ID</th>
 							<td><input type="text" name="usid" id="usid" style="width:150px"><button class="btn_sch" type="button" onclick="duple()">중복확인</button></td>
@@ -106,7 +95,7 @@
 			data : usid,
 			success : function(data){
 				console.log(data);
-				if(data.checkRes != null){
+				if(data.status == "success"){
 					alert("중복된 ID가 있습니다. 다른 ID를 입력해주세요");
 					return;
 				} else {

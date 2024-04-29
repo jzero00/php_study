@@ -94,7 +94,7 @@
         </table>
         <ul class="dw_bar">
             <li><a onclick="deleteUser()">선택삭제</a></li>
-            <li><a href="userMngReg.php">등록</a></li>
+            <li><a href="<?php echo htmlspecialchars('userMngReg.php') ?>">등록</a></li>
         </ul>
         <table class="table_list">
             <colgroup>
@@ -186,7 +186,7 @@
                 $conn->close();
             ?>
         </table>
-        <form id="searchForm" method="post" action="userMngList.php">
+        <form id="searchForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
             <input type='hidden' name="page" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['page'])  : print(1) ?>" />
             <input type='hidden' name="keyword" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['keyword'])  : '' ?>" />
             <input type='hidden' name="searchType" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['searchType'])  : '' ?>" />
