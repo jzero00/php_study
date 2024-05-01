@@ -12,6 +12,6 @@
     if($count != 0) {
         $json = json_encode(array("status"=> "success","message"=> "200"));
     } else {
-        $json = json_encode(array("status"=> "fail","message"=> "200"));
+        $json = json_encode(array("status"=> "fail","message"=> "300"));
     }
 ?>

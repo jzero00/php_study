@@ -95,7 +95,7 @@
 			data : usid,
 			success : function(data){
 				console.log(data);
-				if(data.status == "success"){
+				if(data.message == "200"){
 					alert("중복된 ID가 있습니다. 다른 ID를 입력해주세요");
 					return;
 				} else {
