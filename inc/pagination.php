@@ -4,6 +4,7 @@
 	$endPage = (int) $endPage + 1;
 	$startPage = 1;
 	$realEndPage = $endPage;
+	
 
 ?>
 <li>
