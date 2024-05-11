@@ -2,6 +2,16 @@
 //저장 경로
 $target_dir = "../up/";
 //$_FLIES 전역변수
+/*
+  $_FILES['input 태그 file name']['name'] : 업로드된 파일 명
+  $_FILES['input 태그 file name']['type'] : 브라우저가 제공한다면 MIME 형식
+  $_FILES['input 태그 file name']['size'] : 업로드된 파일의 크기
+  $_FILES['input 태그 file name']['tmp_name'] : 업로드된 파일을 서버측에서 임시로 저장해둔 파일 이름
+  $_FILES['input 태그 file name']['error'] : 파일 업로드와 관련된 에러코드
+
+변수를 통해서 업로드된 파일에 대한 대한 정보과 임시로 저장된 서버내의 파일명을 알아낼 수 있음
+임시로 서버에 저장된 상태의 파일을 저장해 두고 싶은 디렉토리로 옮기는 작업이 파일업로드의 작업
+  */
 // basename(); 경로 + 접미사
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
