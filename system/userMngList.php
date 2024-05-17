@@ -124,6 +124,7 @@
             <?php
                 include $_SERVER["DOCUMENT_ROOT"]."/connect.php";
                 $offset = 0;
+                if(isset($_POST["page"]) && $_POST["page"] != 1) $offset = 10*($_POST["page"]-1);
                 $where = '';
                 $searchType = '';
                 $keyword = '';
