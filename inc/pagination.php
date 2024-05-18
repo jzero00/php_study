@@ -4,8 +4,6 @@
 	$endPage = (int) $endPage + 1;
 	$startPage = 1;
 	$realEndPage = $endPage;
-	echo $endPage;
-
 ?>
 <li>
 	<a href="javascript:search_list_go(1);">이전</a>
