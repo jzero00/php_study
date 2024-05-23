@@ -40,7 +40,7 @@
     $cnt_res = $conn->query($cnt_sql);
     $cnt = $cnt_res->fetch_array(MYSQLI_ASSOC);
     $cnt = $cnt['cnt'];
-    echo $cnt."건이 검색되었습니다.";
+    //echo $cnt."건이 검색되었습니다.";
                 
     $list = "";
     while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {

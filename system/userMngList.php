@@ -89,7 +89,7 @@
                 <td>
                     <input name="keyword" id="keyword" type="text" class="inputSearch2" value="<?php $_SERVER["REQUEST_METHOD"] == "POST" ? print($_POST['keyword'])  : '' ?>">
                     <button class="btn_sch" onclick="search()">검색</button>
-                    <button class="btn_reset">초기화</button>
+                    <button class="btn_reset" onclick="reset()">초기화</button>
                 </td>
             </tr>
         </table>
@@ -142,27 +142,41 @@
 </body>
 <script>
     function search(){
-	var searhForm = document.querySelector("#searchForm");
-	console.log(searhForm);
-	
-	var keyword = document.querySelector("input#keyword").value;
-	var searchType = document.querySelector("select#searchType").value;
-	console.log(keyword);
-	console.log(searchType);
-	
-	var iType = searhForm.querySelector("input[name='searchType']");
-	var iKey = searhForm.querySelector("input[name='keyword']");
-	var iPage = searhForm.querySelector("input[name='page']");
-	
-	iType.value = searchType;
-	iKey.value = keyword;
-    iPage.value = 1;
-	
-	console.log(iType.value);
-	console.log(iKey.value);
-	
-// 	console.log(document.querySelector("form#searchForm"));
-	document.querySelector("form#searchForm").submit();
-}
+        var searhForm = document.querySelector("#searchForm");
+        console.log(searhForm);
+        
+        var keyword = document.querySelector("input#keyword").value;
+        var searchType = document.querySelector("select#searchType").value;
+        console.log(keyword);
+        console.log(searchType);
+        
+        var iType = searhForm.querySelector("input[name='searchType']");
+        var iKey = searhForm.querySelector("input[name='keyword']");
+        var iPage = searhForm.querySelector("input[name='page']");
+        
+        iType.value = searchType;
+        iKey.value = keyword;
+        iPage.value = 1;
+        
+        console.log(iType.value);
+        console.log(iKey.value);
+        
+    // 	console.log(document.querySelector("form#searchForm"));
+        document.querySelector("form#searchForm").submit();
+    }
+
+    function reset(){
+        var searhForm = document.querySelector("#searchForm");
+        
+        var iType = searhForm.querySelector("input[name='searchType']");
+        var iKey = searhForm.querySelector("input[name='keyword']");
+        var iPage = searhForm.querySelector("input[name='page']");
+
+        iType.value = '';
+        iKey.value = '';
+        iPage.value = 1;
+
+        document.querySelector("form#searchForm").submit();
+    }
 </script>
 </html>
