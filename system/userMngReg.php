@@ -86,16 +86,20 @@
 		let usid = "";
 		
 		usid = document.querySelector("input#usid").value;
-		console.log(usid);
+		if(!blankCheck(usid)){
+			alert("ID를 입력해주세요");
+			return false;
+		};
+
+		let data = JSON.stringify({"usid" : usid});
+		
 		$.ajax({
 			url : "usidCheck.php",
 			type : "post",
-			contentType: "application/json;charset=UTF-8",
 			dataType : "json",
-			data : {"usid" : usid},
+			data : {"data" : data},
 			success : function(data){
-				console.log(data);
-				if(data.message == "200"){
+				if(data.message == "300"){
 					alert("중복된 ID가 있습니다. 다른 ID를 입력해주세요");
 					return;
 				} else {
@@ -107,5 +111,12 @@
 				alert("중복체크 오류");
 			}
 		})		
+	}
+
+	function blankCheck(id){
+		if(id == null || id == ''){
+			return false;
+		}
+		return true;
 	}
 </script>
