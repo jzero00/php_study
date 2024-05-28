@@ -1,12 +1,17 @@
 <?php
     include $_SERVER["DOCUMENT_ROOT"]."/connect.php";
-    $usid = $_POST["usid"];
-    $sql = "SELECT COUNT(*) as cnt FROM safejsp.user
-            WHERE usid = '".$usid."'";
-    $result = $conn->query($sql);
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $count = $row['cnt'];
 
+    $json_array = json_decode(file_get_contents('php://input'), true);
+    // echo $json_array;
+
+    $usid = $json_array;
+    //echo $usid;
+    $sql = "SELECT * FROM safejsp.user
+            WHERE usid = '".$usid."'";
+    $result = mysqli_query($conn,$sql);
+    $count = mysqli_num_rows($result);
+
+    echo $count;
     $json = "";
 
     if($count != 0) {

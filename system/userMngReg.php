@@ -86,13 +86,13 @@
 		let usid = "";
 		
 		usid = document.querySelector("input#usid").value;
-		
+		console.log(usid);
 		$.ajax({
 			url : "usidCheck.php",
 			type : "post",
 			contentType: "application/json;charset=UTF-8",
-			dataType : "text",
-			data : usid,
+			dataType : "json",
+			data : {"usid" : usid},
 			success : function(data){
 				console.log(data);
 				if(data.message == "200"){
