@@ -12,9 +12,9 @@
     $json = "";
 
     if($count == 0) {
-        $json = json_encode(array("status"=> "success","message"=> "200"));
+        $json = json_encode(array("result"=> "success"));
     } else {
-        $json = json_encode(array("status"=> "fail","message"=> "300"));
+        $json = json_encode(array("result"=> "duplicated"));
     }
     echo $json;
 ?>

@@ -17,7 +17,7 @@
 		<div class="board_title2">
 			<h3>사용자정보 등록</h3>
 		</div>
-		<form name="frm" id="frm" method="post" action="userMngReg.php">	
+		<form name="frm" id="frm" method="post" action="insertUser.php">	
 <!-- 			<input type="hidden" value="sub00801i.do" name="loc"> -->
 <!-- 			<input name="midchk" id="midchk" type="hidden" value="0"> -->
 			<table class="table_view">
@@ -50,7 +50,7 @@
 						</tr>
 						<tr>
 							<th>ID</th>
-							<td><input type="text" name="usid" id="usid" style="width:150px"><button class="btn_sch" type="button" onclick="duple()">중복확인</button></td>
+							<td><input type="text" name="usid" id="usid" style="width:150px"><button class="btn_sch" type="button" onclick="duple()" onkeyup="resetIdCheck()">중복확인</button></td>
 							<th>성명</th>
 							<td><input type="text" name="userNm" id="userNm" style="width: 200px;"></td>
 						</tr>
@@ -82,6 +82,12 @@
 	</div>
 </body>
 <script>
+	const idInput = document.querySelector("input#usid");
+	const idCheckInput = document.querySelector("input#idCheck");
+	idInput.addEventListener("change", function(e){
+		idCheckInput.value = false;
+	})
+
 	function duple(){
 		let usid = "";
 		
@@ -99,12 +105,12 @@
 			dataType : "json",
 			data : {"data" : data},
 			success : function(data){
-				if(data.message == "300"){
+				if(data.result == "duplicated"){
 					alert("중복된 ID가 있습니다. 다른 ID를 입력해주세요");
 					return;
 				} else {
 					alert("사용 가능한 ID입니다");
-					document.querySelector("input#idCheck").value = 1;
+					document.querySelector("input#idCheck").value = true;
 				}
 			},
 			error : function(error){
@@ -118,5 +124,28 @@
 			return false;
 		}
 		return true;
+	}
+
+	function reg(){
+		if(document.getElementById("usid").value == ""){
+			alert("ID를 입력해주세요");
+		} else if (document.getElementById("userNm").value == ""){
+			alert("이름을 입력해주세요");
+		} else if(document.getElementById("password1").value == ""){
+			alert("비밀번호를 입력해주세요");
+		} else if(document.getElementById("password2").value == ""){
+			alert("확인 비밀번호를 입력해주세요");
+		} else if(document.getElementById("password1").value != document.getElementById("password2").value){
+			alert("입력한 두 비밀번호가 일치하지 않습니다.");
+		} else if(document.getElementById("idCheck").value == 0){
+			alert("ID 중복확인해부세요");
+		} else if(document.querySelectorAll("input[type=radio]").ischecked){
+			alert("권한을 선택해주세요");
+		} else {
+			//var shaPw = CryptoJS.SHA256(document.getElementById("password1").value).toString(); 
+			//document.getElementById("postPassword").value = shaPw;
+			//console.log(document.getElementById("usid").value);
+			document.querySelector("form[id=frm]").submit();
+		}
 	}
 </script>
