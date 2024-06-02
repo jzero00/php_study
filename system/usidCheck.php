@@ -9,7 +9,6 @@
     $result = mysqli_query($conn,$sql);
     $count = mysqli_num_rows($result);
 
-    echo $count;
     $json = "";
 
     if($count == 0) {
@@ -17,4 +16,5 @@
     } else {
         $json = json_encode(array("status"=> "fail","message"=> "300"));
     }
+    echo $json;
 ?>
