@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <?php   include $_SERVER["DOCUMENT_ROOT"]."/inc/head.inc"; ?>
+<script src="/sha/core.min.js"></script>
+<script src="/sha/sha256.min.js"></script>
 </head>
 <body>
 <div id="content">
@@ -142,9 +144,9 @@
 		} else if(document.querySelectorAll("input[type=radio]").ischecked){
 			alert("권한을 선택해주세요");
 		} else {
-			//var shaPw = CryptoJS.SHA256(document.getElementById("password1").value).toString(); 
-			//document.getElementById("postPassword").value = shaPw;
-			//console.log(document.getElementById("usid").value);
+			var shaPw = CryptoJS.SHA256(document.getElementById("password1").value).toString(); 
+			document.getElementById("postPassword").value = shaPw;
+			console.log(document.getElementById("usid").value);
 			document.querySelector("form[id=frm]").submit();
 		}
 	}
